@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+/* Tailwind v4 theme configuration */
+@theme {
+  /* Font family */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  /* Custom colors using CSS variables - will be defined in :root and .dark */
+  --color-bg: rgb(var(--bg));
+  --color-surface-1: rgb(var(--surface-1));
+  --color-surface-2: rgb(var(--surface-2));
+  --color-surface-3: rgb(var(--surface-3));
+
+  --color-text-primary: rgb(var(--text-primary));
+  --color-text-secondary: rgb(var(--text-secondary));
+  --color-text-tertiary: rgb(var(--text-tertiary));
+  --color-text-inverse: rgb(var(--text-inverse));
+
+  --color-border-default: rgb(var(--border-default));
+  --color-border-muted: rgb(var(--border-muted));
+  --color-border-strong: rgb(var(--border-strong));
+  --color-border-stronger: rgb(var(--border-stronger));
+
+  --color-border-blue: rgb(var(--border-blue));
+  --color-border-green: rgb(var(--border-green));
+  --color-border-purple: rgb(var(--border-purple));
+  --color-border-orange: rgb(var(--border-orange));
+  --color-border-pink: rgb(var(--border-pink));
+  --color-border-yellow: rgb(var(--border-yellow));
+  --color-border-grey: rgb(var(--border-grey));
+
+  --color-primary-main: rgb(var(--primary-main));
+  --color-primary-hover: rgb(var(--primary-hover));
+  --color-primary-pressed: rgb(var(--primary-pressed));
+  --color-primary-subtle: rgb(var(--primary-subtle));
+  --color-primary-subtle2: rgb(var(--primary-subtle2));
+
+  --color-secondary-main: rgb(var(--secondary-main));
+  --color-secondary-hover: rgb(var(--secondary-hover));
+  --color-secondary-pressed: rgb(var(--secondary-pressed));
+  --color-secondary-subtle: rgb(var(--secondary-subtle));
+  --color-secondary-subtle2: rgb(var(--secondary-subtle2));
+
+  --color-accent1-main: rgb(var(--accent1-main));
+  --color-accent1-hover: rgb(var(--accent1-hover));
+  --color-accent1-pressed: rgb(var(--accent1-pressed));
+  --color-accent1-subtle: rgb(var(--accent1-subtle));
+  --color-accent1-subtle2: rgb(var(--accent1-subtle2));
+
+  --color-accent2-main: rgb(var(--accent2-main));
+  --color-accent2-hover: rgb(var(--accent2-hover));
+  --color-accent2-pressed: rgb(var(--accent2-pressed));
+  --color-accent2-subtle: rgb(var(--accent2-subtle));
+  --color-accent2-subtle2: rgb(var(--accent2-subtle2));
+  --color-accent2-warm-main: rgb(var(--accent2-warm-main));
+}
+
+/* ========== LIGHT THEME (default) ========== */
+:root {
+  /* Background + surfaces */
+  --bg: 255 255 255;
+  --surface-1: 248 250 252;
+  --surface-2: 241 245 249;
+  --surface-3: 226 232 240;
+
+  /* Text */
+  --text-primary: 15 23 42;
+  --text-secondary: 51 65 85;
+  --text-tertiary: 100 116 139;
+  --text-inverse: 255 255 255;
+
+  /* Borders */
+  --border-default: 226 232 240;
+  --border-muted: 241 245 249;
+  --border-strong: 203 213 225;
+  --border-stronger: 148 163 184;
+
+  /* Semantic colored borders */
+  --border-blue: 0 85 212;
+  --border-green: 34 197 94;
+  --border-purple: 93 72 191;
+  --border-orange: 255 138 61;
+  --border-pink: 255 92 138;
+  --border-yellow: 255 193 7;
+  --border-grey: 148 163 184;
+
+  /* Brand: Primary */
+  --primary-main: 93 72 191;
+  --primary-hover: 79 59 171;
+  --primary-pressed: 64 48 149;
+  --primary-subtle: 242 239 255;
+  --primary-subtle2: 229 223 255;
+
+  /* Brand: Secondary */
+  --secondary-main: 0 85 212;
+  --secondary-hover: 0 75 192;
+  --secondary-pressed: 0 63 163;
+  --secondary-subtle: 232 241 255;
+  --secondary-subtle2: 214 230 255;
+
+  /* Accent 01 (pink) */
+  --accent1-main: 255 92 138;
+  --accent1-hover: 255 74 125;
+  --accent1-pressed: 230 63 111;
+  --accent1-subtle: 255 233 240;
+  --accent1-subtle2: 255 211 225;
+
+  /* Accent 02 (amber) */
+  --accent2-main: 255 193 7;
+  --accent2-hover: 255 179 0;
+  --accent2-pressed: 255 160 0;
+  --accent2-subtle: 255 247 218;
+  --accent2-subtle2: 255 237 176;
+  --accent2-warm-main: 255 138 61;
+
+  /* Gradient */
+  --border-gradient: linear-gradient(135deg, #5D48BF 0%, #0055D4 100%);
+}
+
+/* ========== DARK THEME (override) ========== */
+.dark {
+  /* Background + surfaces */
+  --bg: 11 15 20;
+  --surface-1: 17 24 39;
+  --surface-2: 21 31 51;
+  --surface-3: 27 39 64;
+
+  /* Text */
+  --text-primary: 233 237 247;
+  --text-secondary: 183 192 212;
+  --text-tertiary: 140 151 175;
+  --text-inverse: 11 15 20;
+
+  /* Borders */
+  --border-default: 38 49 71;
+  --border-muted: 28 37 55;
+  --border-strong: 51 65 94;
+  --border-stronger: 66 82 122;
+
+  /* Semantic colored borders */
+  --border-blue: 96 165 250;
+  --border-green: 126 224 132;
+  --border-purple: 139 134 255;
+  --border-orange: 255 138 107;
+  --border-pink: 255 124 193;
+  --border-yellow: 255 200 87;
+  --border-grey: 124 135 157;
+
+  /* Brand: Primary */
+  --primary-main: 139 134 255;
+  --primary-hover: 122 116 255;
+  --primary-pressed: 106 99 255;
+  --primary-subtle: 26 26 51;
+  --primary-subtle2: 35 34 74;
+
+  /* Brand: Secondary */
+  --secondary-main: 77 141 255;
+  --secondary-hover: 58 127 255;
+  --secondary-pressed: 42 114 255;
+  --secondary-subtle: 14 32 61;
+  --secondary-subtle2: 19 43 82;
+
+  /* Accent 01 (pink) */
+  --accent1-main: 255 124 193;
+  --accent1-hover: 255 102 183;
+  --accent1-pressed: 255 77 173;
+  --accent1-subtle: 51 21 36;
+  --accent1-subtle2: 69 27 48;
+
+  /* Accent 02 (amber) */
+  --accent2-main: 255 200 87;
+  --accent2-hover: 255 191 61;
+  --accent2-pressed: 255 176 34;
+  --accent2-subtle: 43 34 14;
+  --accent2-subtle2: 58 45 16;
+  --accent2-warm-main: 255 138 61;
+
+  /* Gradient */
+  --border-gradient: linear-gradient(135deg, #8B86FF 0%, #60A5FA 100%);
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--text-primary));
+  min-height: 100vh;
+}
+
+/* 404 Page Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 0 rgb(var(--accent1-main)), -2px 0 rgb(var(--secondary-main));
+    transform: translate(0);
+  }
+  20% {
+    text-shadow: -2px 0 rgb(var(--accent1-main)), 2px 0 rgb(var(--secondary-main));
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    text-shadow: 2px 0 rgb(var(--accent1-main)), -2px 0 rgb(var(--secondary-main));
+    transform: translate(2px, -2px);
+  }
+  60% {
+    text-shadow: -2px 0 rgb(var(--accent1-main)), 2px 0 rgb(var(--secondary-main));
+    transform: translate(-2px, 0);
+  }
+  80% {
+    text-shadow: 2px 0 rgb(var(--accent1-main)), -2px 0 rgb(var(--secondary-main));
+    transform: translate(2px, 0);
+  }
+  100% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-glitch {
+  animation: glitch 0.5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-glitch:hover {
+  animation-duration: 0.2s;
+}
