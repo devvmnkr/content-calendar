@@ -24,7 +24,12 @@ export async function loginHandler(
       ? MESSAGES.REGISTRATION_SUCCESS
       : MESSAGES.LOGIN_SUCCESS;
 
-    sendSuccess(res, message, { user, isNewUser });
+    // Include token in response if requested (for Swagger testing)
+    const responseData = req.body.includeToken
+      ? { user, isNewUser, accessToken: tokens.accessToken }
+      : { user, isNewUser };
+
+    sendSuccess(res, message, responseData);
   } catch (error) {
     next(error);
   }

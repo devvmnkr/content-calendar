@@ -33,6 +33,10 @@ const router: IRouter = Router();
  *           type: string
  *           description: Optional. Used for auto-registration if user does not exist.
  *           example: John Doe
+ *         includeToken:
+ *           type: boolean
+ *           description: Optional. Set to true to include accessToken in response (for Swagger testing).
+ *           example: true
  *     User:
  *       type: object
  *       properties:
@@ -113,6 +117,9 @@ const router: IRouter = Router();
  *                         isNewUser:
  *                           type: boolean
  *                           description: True if this was a new registration
+ *                         accessToken:
+ *                           type: string
+ *                           description: Only included when includeToken is true
  *       401:
  *         description: Invalid credentials (for existing users with wrong password)
  *         content:

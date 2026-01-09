@@ -5,6 +5,7 @@ export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   name: z.string().min(1).optional(), // Optional: used for auto-registration if user doesn't exist
+  includeToken: z.boolean().optional(), // Optional: include access token in response for Swagger testing
 });
 
 export const userSchema = z.object({
