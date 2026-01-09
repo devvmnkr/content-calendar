@@ -21,10 +21,10 @@ const buttonVariants = cva(
         link: "text-primary-main underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-lg px-6 text-base",
-        icon: "h-10 w-10",
+        default: "px-5 text-sm",
+        sm: "rounded-md px-4 text-xs",
+        lg: "rounded-lg px-8 text-base",
+        icon: "",
       },
     },
     defaultVariants: {
@@ -34,6 +34,13 @@ const buttonVariants = cva(
   }
 );
 
+const sizeStyles = {
+  default: { height: "42px", paddingLeft: "20px", paddingRight: "20px" },
+  sm: { height: "36px", paddingLeft: "16px", paddingRight: "16px" },
+  lg: { height: "48px", paddingLeft: "32px", paddingRight: "32px" },
+  icon: { height: "40px", width: "40px" },
+} as const;
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
@@ -41,11 +48,14 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, style, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
+    const sizeStyle = sizeStyles[size || "default"];
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
+        style={{ ...sizeStyle, ...style }}
         ref={ref}
         {...props}
       />

@@ -115,6 +115,15 @@
 
   /* Gradient */
   --border-gradient: linear-gradient(135deg, #5D48BF 0%, #0055D4 100%);
+
+  /* Star colors for light theme (darker/muted shades) */
+  --star-1: 93 72 191;
+  --star-2: 0 85 212;
+  --star-3: 148 163 184;
+  --star-4: 100 116 139;
+  --star-5: 71 85 105;
+  --star-opacity-min: 0.15;
+  --star-opacity-max: 0.15;
 }
 
 /* ========== DARK THEME (override) ========== */
@@ -177,13 +186,22 @@
 
   /* Gradient */
   --border-gradient: linear-gradient(135deg, #8B86FF 0%, #60A5FA 100%);
+
+  /* Star colors for dark theme (vibrant shades) */
+  --star-1: 139 134 255;
+  --star-2: 77 141 255;
+  --star-3: 255 124 193;
+  --star-4: 255 200 87;
+  --star-5: 183 192 212;
+  --star-opacity-min: 0.3;
+  --star-opacity-max: 0.8;
 }
 
 /* Base styles */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -261,4 +279,53 @@ body {
 
 .animate-glitch:hover {
   animation-duration: 0.2s;
+}
+
+/* Star animations */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes twinkleSlow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes twinkleFast {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-twinkle-slow {
+  animation: twinkleSlow 5s ease-in-out infinite;
+}
+
+.animate-twinkle-fast {
+  animation: twinkleFast 2s ease-in-out infinite;
 }

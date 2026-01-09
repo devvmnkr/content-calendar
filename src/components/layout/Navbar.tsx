@@ -1,22 +1,30 @@
 import { useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { useSidebarStore } from "@/stores/sidebarStore";
+import { useAuthStore } from "@/stores/authStore";
 import { NAV_ITEMS } from "@/constants/navigation";
-import { ARIA_LABELS, AVATAR, PAGE_TITLES } from "@/constants/strings";
+import { ARIA_LABELS, AVATAR, PAGE_TITLES, BUTTONS } from "@/constants/strings";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
-const AVATAR_URL = `https://api.dicebear.com/7.x/avataaars/svg?seed=${AVATAR.SEED}`;
-
 export function Navbar() {
   const { toggleOpen } = useSidebarStore();
+  const { user, logout } = useAuthStore();
   const location = useLocation();
 
   const currentNavItem = NAV_ITEMS.find(
     (item) => item.path === location.pathname
   );
   const pageTitle = currentNavItem?.pageTitle || PAGE_TITLES.NOT_FOUND;
+
+  const avatarUrl = user
+    ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
+    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${AVATAR.SEED}`;
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border-default bg-bg px-4 lg:px-6">
@@ -38,9 +46,19 @@ export function Navbar() {
       <div className="flex items-center gap-2">
         <ThemeToggle />
         <Avatar>
-          <AvatarImage src={AVATAR_URL} alt={ARIA_LABELS.USER_AVATAR} />
-          <AvatarFallback>{AVATAR.FALLBACK}</AvatarFallback>
+          <AvatarImage src={avatarUrl} alt={ARIA_LABELS.USER_AVATAR} />
+          <AvatarFallback>
+            {user?.name?.charAt(0).toUpperCase() || AVATAR.FALLBACK}
+          </AvatarFallback>
         </Avatar>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleLogout}
+          aria-label={BUTTONS.LOGOUT}
+        >
+          <LogOut className="h-5 w-5 text-text-secondary" />
+        </Button>
       </div>
     </header>
   );
