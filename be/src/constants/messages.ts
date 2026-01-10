@@ -2,6 +2,7 @@ export const MESSAGES = {
   // Success messages
   LOGIN_SUCCESS: "Login successful",
   REGISTRATION_SUCCESS: "Registration successful",
+  GOOGLE_LOGIN_SUCCESS: "Google login successful",
   LOGOUT_SUCCESS: "Logout successful",
   TOKEN_REFRESHED: "Token refreshed successfully",
   USER_FETCHED: "User details fetched successfully",

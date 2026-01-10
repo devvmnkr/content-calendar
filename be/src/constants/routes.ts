@@ -10,6 +10,7 @@ export const ROUTES = {
   AUTH: {
     BASE: "/auth",
     LOGIN: "/login",
+    GOOGLE: "/google",
     REFRESH: "/refresh",
     LOGOUT: "/logout",
     ME: "/me",
@@ -22,6 +23,7 @@ export const ROUTES = {
 export const FULL_ROUTES = {
   AUTH: {
     LOGIN: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.LOGIN}`,
+    GOOGLE: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.GOOGLE}`,
     REFRESH: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.REFRESH}`,
     LOGOUT: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.LOGOUT}`,
     ME: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.ME}`,

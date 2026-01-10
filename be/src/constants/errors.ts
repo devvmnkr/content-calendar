@@ -6,6 +6,8 @@ export const ERROR_CODES = {
   TOKEN_INVALID: "TOKEN_INVALID",
   REFRESH_TOKEN_REQUIRED: "REFRESH_TOKEN_REQUIRED",
   ACCESS_TOKEN_REQUIRED: "ACCESS_TOKEN_REQUIRED",
+  GOOGLE_AUTH_FAILED: "GOOGLE_AUTH_FAILED",
+  PASSWORD_LOGIN_NOT_ALLOWED: "PASSWORD_LOGIN_NOT_ALLOWED",
 
   // User errors
   USER_NOT_FOUND: "USER_NOT_FOUND",
@@ -28,6 +30,9 @@ export const ERROR_MESSAGES: Record<string, string> = {
   [ERROR_CODES.TOKEN_INVALID]: "Invalid token",
   [ERROR_CODES.REFRESH_TOKEN_REQUIRED]: "Refresh token is required",
   [ERROR_CODES.ACCESS_TOKEN_REQUIRED]: "Access token is required",
+  [ERROR_CODES.GOOGLE_AUTH_FAILED]: "Google authentication failed",
+  [ERROR_CODES.PASSWORD_LOGIN_NOT_ALLOWED]:
+    "This account uses Google Sign-in. Please sign in with Google.",
   [ERROR_CODES.USER_NOT_FOUND]: "User not found",
   [ERROR_CODES.USER_DELETED]: "User account has been deleted",
   [ERROR_CODES.EMAIL_ALREADY_EXISTS]: "Email already exists",

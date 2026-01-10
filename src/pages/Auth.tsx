@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail } from "lucide-react";
+import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useAuthStore } from "@/stores/authStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,10 @@ const STRINGS = {
   PASSWORD_MIN_LENGTH: "Password must be at least 6 characters",
   INVALID_EMAIL: "Please enter a valid email address",
   GENERIC_ERROR: "Something went wrong. Please try again.",
+  GOOGLE_ERROR: "Google sign-in failed. Please try again.",
+  POPUP_BLOCKED: "Popup was blocked. Please allow popups for this site.",
+  GOOGLE_ONLY_ACCOUNT:
+    "This account uses Google Sign-in. Please sign in with Google.",
 } as const;
 
 const ARIA = {
@@ -82,17 +87,20 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export function Auth() {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { login, googleLogin } = useAuthStore();
 
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     name: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+
+  const googleButtonRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -143,6 +151,10 @@ export function Auth() {
       };
       if (axiosError.response?.data?.code === "INVALID_CREDENTIALS") {
         setErrors({ general: STRINGS.INVALID_CREDENTIALS });
+      } else if (
+        axiosError.response?.data?.code === "PASSWORD_LOGIN_NOT_ALLOWED"
+      ) {
+        setErrors({ general: STRINGS.GOOGLE_ONLY_ACCOUNT });
       } else {
         setErrors({ general: STRINGS.GENERIC_ERROR });
       }
@@ -151,8 +163,39 @@ export function Auth() {
     }
   };
 
+  const handleGoogleSuccess = async (response: CredentialResponse) => {
+    if (!response.credential) {
+      setErrors({ general: STRINGS.GOOGLE_ERROR });
+      setIsGoogleLoading(false);
+      return;
+    }
+
+    setIsGoogleLoading(true);
+    setErrors({});
+    try {
+      await googleLogin(response.credential);
+      navigate("/");
+    } catch {
+      setErrors({ general: STRINGS.GOOGLE_ERROR });
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setErrors({ general: STRINGS.GOOGLE_ERROR });
+    setIsGoogleLoading(false);
+  };
+
   const handleGoogleSignIn = () => {
-    // Google Sign-in will be implemented later
+    setErrors({});
+    // Find and click the hidden Google button
+    const googleButton = googleButtonRef.current?.querySelector(
+      'div[role="button"]'
+    ) as HTMLElement | null;
+    if (googleButton) {
+      googleButton.click();
+    }
   };
 
   const toggleMode = () => {
@@ -178,16 +221,31 @@ export function Auth() {
             </p>
           </div>
 
-          {/* Google Sign-in */}
+          {/* Hidden Google Login Button */}
+          <div
+            ref={googleButtonRef}
+            className="absolute h-0 w-0 overflow-hidden opacity-0"
+            aria-hidden="true"
+          >
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap={false}
+              type="icon"
+            />
+          </div>
+
+          {/* Visible Google Sign-in Button */}
           <Button
             type="button"
             variant="outline"
             size="lg"
             className="w-full gap-3"
             onClick={handleGoogleSignIn}
+            disabled={isGoogleLoading}
           >
             <GoogleIcon className="h-5 w-5" />
-            {STRINGS.GOOGLE_BUTTON}
+            {isGoogleLoading ? "..." : STRINGS.GOOGLE_BUTTON}
           </Button>
 
           {/* Divider */}

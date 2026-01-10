@@ -22,6 +22,7 @@ api.interceptors.request.use(
 // Endpoints that should not trigger token refresh
 const AUTH_ENDPOINTS = [
   "/auth/login",
+  "/auth/google",
   "/auth/refresh",
   "/auth/me",
   "/auth/logout",

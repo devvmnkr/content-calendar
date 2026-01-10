@@ -29,7 +29,9 @@ export async function authenticate(
     const supabase = getSupabaseClient();
     const { data: user, error } = await supabase
       .from("users")
-      .select("id, name, email, role, created_at, updated_at, deleted_at")
+      .select(
+        "id, name, email, role, avatar_url, created_at, updated_at, deleted_at"
+      )
       .eq("id", payload.userId)
       .single<User>();
 
@@ -47,6 +49,7 @@ export async function authenticate(
       name: user.name,
       email: user.email,
       role: user.role,
+      avatar_url: user.avatar_url,
       created_at: user.created_at,
       updated_at: user.updated_at,
     };

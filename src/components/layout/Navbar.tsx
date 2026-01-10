@@ -18,9 +18,11 @@ export function Navbar() {
   );
   const pageTitle = currentNavItem?.pageTitle || PAGE_TITLES.NOT_FOUND;
 
-  const avatarUrl = user
+  // Use Google avatar if available, fallback to DiceBear
+  const dicebearUrl = user
     ? `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
     : `https://api.dicebear.com/7.x/avataaars/svg?seed=${AVATAR.SEED}`;
+  const avatarUrl = user?.avatar_url || dicebearUrl;
 
   const handleLogout = async () => {
     await logout();
@@ -45,9 +47,13 @@ export function Navbar() {
       {/* Right side */}
       <div className="flex items-center gap-2">
         <ThemeToggle />
-        <Avatar>
-          <AvatarImage src={avatarUrl} alt={ARIA_LABELS.USER_AVATAR} />
-          <AvatarFallback>
+        <Avatar className="h-8 w-8">
+          <AvatarImage
+            src={avatarUrl}
+            alt={ARIA_LABELS.USER_AVATAR}
+            referrerPolicy="no-referrer"
+          />
+          <AvatarFallback className="text-sm">
             {user?.name?.charAt(0).toUpperCase() || AVATAR.FALLBACK}
           </AvatarFallback>
         </Avatar>

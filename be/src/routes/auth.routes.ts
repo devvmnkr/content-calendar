@@ -2,12 +2,13 @@ import { Router, IRouter } from "express";
 import { ROUTES } from "../constants/index.js";
 import {
   loginHandler,
+  googleLoginHandler,
   refreshHandler,
   logoutHandler,
   getMeHandler,
 } from "../controllers/index.js";
 import { authenticate, validateRequest } from "../middleware/index.js";
-import { loginSchema } from "../models/user.model.js";
+import { loginSchema, googleLoginSchema } from "../models/user.model.js";
 
 const router: IRouter = Router();
 
@@ -128,6 +129,61 @@ const router: IRouter = Router();
  *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.post(ROUTES.AUTH.LOGIN, validateRequest(loginSchema), loginHandler);
+
+/**
+ * @swagger
+ * /api/v1/auth/google:
+ *   post:
+ *     summary: Login or Register with Google
+ *     description: Authenticate user with Google ID token. If user does not exist, automatically registers them. Sets HTTP-only cookies for access and refresh tokens.
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - credential
+ *             properties:
+ *               credential:
+ *                 type: string
+ *                 description: Google ID token received from Google Sign-in
+ *     responses:
+ *       200:
+ *         description: Login or registration successful
+ *         headers:
+ *           Set-Cookie:
+ *             description: HTTP-only cookies containing access_token and refresh_token
+ *             schema:
+ *               type: string
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/SuccessResponse'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: object
+ *                       properties:
+ *                         user:
+ *                           $ref: '#/components/schemas/User'
+ *                         isNewUser:
+ *                           type: boolean
+ *                           description: True if this was a new registration
+ *       401:
+ *         description: Invalid Google token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+router.post(
+  ROUTES.AUTH.GOOGLE,
+  validateRequest(googleLoginSchema),
+  googleLoginHandler
+);
 
 /**
  * @swagger

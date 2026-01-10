@@ -23,6 +23,9 @@ const envSchema = z.object({
 
   // CORS
   FRONTEND_URL: z.string().url().default("http://localhost:5173"),
+
+  // Google OAuth
+  GOOGLE_CLIENT_ID: z.string().min(1),
 });
 
 export type Env = z.infer<typeof envSchema>;

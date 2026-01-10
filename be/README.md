@@ -44,6 +44,7 @@ cp .env.example .env
 
    - `migrations/001_create_users_table.sql`
    - `migrations/002_drop_rls_policy.sql` (optional, for simpler development)
+   - `migrations/003_add_google_auth_columns.sql` (for Google Sign-in support)
 
 2. Seed the database with a test admin user:
 
@@ -75,13 +76,14 @@ Swagger UI available at `http://localhost:3000/api-docs`
 
 ## API Endpoints
 
-| Method | Endpoint               | Description               |
-| ------ | ---------------------- | ------------------------- |
-| POST   | `/api/v1/auth/login`   | Login with email/password |
-| POST   | `/api/v1/auth/refresh` | Refresh access token      |
-| POST   | `/api/v1/auth/logout`  | Logout and clear cookies  |
-| GET    | `/api/v1/auth/me`      | Get current user details  |
-| GET    | `/health`              | Health check              |
+| Method | Endpoint               | Description                |
+| ------ | ---------------------- | -------------------------- |
+| POST   | `/api/v1/auth/login`   | Login with email/password  |
+| POST   | `/api/v1/auth/google`  | Login/Register with Google |
+| POST   | `/api/v1/auth/refresh` | Refresh access token       |
+| POST   | `/api/v1/auth/logout`  | Logout and clear cookies   |
+| GET    | `/api/v1/auth/me`      | Get current user details   |
+| GET    | `/health`              | Health check               |
 
 ## Project Structure
 

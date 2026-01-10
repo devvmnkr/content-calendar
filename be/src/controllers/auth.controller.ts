@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { MESSAGES, COOKIE_NAMES, ERROR_CODES } from "../constants/index.js";
-import { login, refreshTokens } from "../services/index.js";
+import { login, googleLogin, refreshTokens } from "../services/index.js";
 import {
   sendSuccess,
   setAuthCookies,
   clearAuthCookies,
 } from "../utils/index.js";
-import { LoginInput } from "../models/user.model.js";
+import { LoginInput, GoogleLoginInput } from "../models/user.model.js";
 import { AppError } from "../middleware/index.js";
 import { UserPublic } from "../types/index.js";
 
@@ -30,6 +30,26 @@ export async function loginHandler(
       : { user, isNewUser };
 
     sendSuccess(res, message, responseData);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function googleLoginHandler(
+  req: Request<unknown, unknown, GoogleLoginInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const { user, tokens, isNewUser } = await googleLogin(req.body);
+
+    setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+
+    const message = isNewUser
+      ? MESSAGES.REGISTRATION_SUCCESS
+      : MESSAGES.GOOGLE_LOGIN_SUCCESS;
+
+    sendSuccess(res, message, { user, isNewUser });
   } catch (error) {
     next(error);
   }
