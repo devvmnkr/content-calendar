@@ -11,6 +11,7 @@ const envSchema = z.object({
   // Supabase
   SUPABASE_PROJECT_URL: z.string().url(),
   SUPABASE_PUBLISHABLE_KEY: z.string().min(1),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
 
   // JWT
   JWT_ACCESS_SECRET: z.string().min(32),

@@ -14,6 +14,14 @@ export const ERROR_CODES = {
   USER_DELETED: "USER_DELETED",
   EMAIL_ALREADY_EXISTS: "EMAIL_ALREADY_EXISTS",
 
+  // Post errors
+  POST_NOT_FOUND: "POST_NOT_FOUND",
+  POST_ACCESS_DENIED: "POST_ACCESS_DENIED",
+  INVALID_FILE_TYPE: "INVALID_FILE_TYPE",
+  FILE_TOO_LARGE: "FILE_TOO_LARGE",
+  FILE_UPLOAD_FAILED: "FILE_UPLOAD_FAILED",
+  FILE_DELETE_FAILED: "FILE_DELETE_FAILED",
+
   // Validation errors
   VALIDATION_ERROR: "VALIDATION_ERROR",
   INVALID_JSON: "INVALID_JSON",
@@ -36,6 +44,14 @@ export const ERROR_MESSAGES: Record<string, string> = {
   [ERROR_CODES.USER_NOT_FOUND]: "User not found",
   [ERROR_CODES.USER_DELETED]: "User account has been deleted",
   [ERROR_CODES.EMAIL_ALREADY_EXISTS]: "Email already exists",
+  [ERROR_CODES.POST_NOT_FOUND]: "Post not found",
+  [ERROR_CODES.POST_ACCESS_DENIED]:
+    "You do not have permission to access this post",
+  [ERROR_CODES.INVALID_FILE_TYPE]:
+    "Invalid file type. Allowed types: images, PDF, Excel, Word documents",
+  [ERROR_CODES.FILE_TOO_LARGE]: "File size exceeds the maximum limit of 10MB",
+  [ERROR_CODES.FILE_UPLOAD_FAILED]: "Failed to upload file",
+  [ERROR_CODES.FILE_DELETE_FAILED]: "Failed to delete file",
   [ERROR_CODES.VALIDATION_ERROR]: "Validation failed",
   [ERROR_CODES.INVALID_JSON]: "Invalid JSON in request body",
   [ERROR_CODES.INTERNAL_SERVER_ERROR]: "An unexpected error occurred",

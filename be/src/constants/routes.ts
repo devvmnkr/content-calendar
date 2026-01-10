@@ -16,6 +16,12 @@ export const ROUTES = {
     ME: "/me",
   },
 
+  // Posts routes
+  POSTS: {
+    BASE: "/posts",
+    BY_ID: "/:id",
+  },
+
   // Swagger
   SWAGGER: "/api-docs",
 } as const;
@@ -27,5 +33,9 @@ export const FULL_ROUTES = {
     REFRESH: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.REFRESH}`,
     LOGOUT: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.LOGOUT}`,
     ME: `${API_BASE}${ROUTES.AUTH.BASE}${ROUTES.AUTH.ME}`,
+  },
+  POSTS: {
+    BASE: `${API_BASE}${ROUTES.POSTS.BASE}`,
+    BY_ID: `${API_BASE}${ROUTES.POSTS.BASE}${ROUTES.POSTS.BY_ID}`,
   },
 } as const;

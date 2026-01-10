@@ -1,11 +1,37 @@
-import { MESSAGES } from "@/constants/strings";
+import { useEffect } from "react";
+import {
+  CalendarToolbar,
+  CalendarHeader,
+  CalendarGrid,
+  PostDetailSheet,
+  NewPostSheet,
+} from "@/components/calendar";
+import { useCalendarStore } from "@/stores/calendarStore";
 
 export function Schedule() {
+  const { fetchPosts } = useCalendarStore();
+
+  // Fetch posts on initial load
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
   return (
-    <div className="flex h-full items-center justify-center">
-      <h1 className="text-3xl font-semibold text-text-primary">
-        {MESSAGES.SCHEDULE_PLACEHOLDER}
-      </h1>
+    <div className="flex h-full flex-col bg-bg">
+      {/* Toolbar with filters */}
+      <CalendarToolbar />
+
+      {/* Month header with navigation and Add New button */}
+      <CalendarHeader />
+
+      {/* Calendar grid */}
+      <CalendarGrid />
+
+      {/* Post detail sidebar */}
+      <PostDetailSheet />
+
+      {/* New/Edit post drawer */}
+      <NewPostSheet />
     </div>
   );
 }

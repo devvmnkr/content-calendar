@@ -53,6 +53,15 @@
   --color-accent2-subtle: rgb(var(--accent2-subtle));
   --color-accent2-subtle2: rgb(var(--accent2-subtle2));
   --color-accent2-warm-main: rgb(var(--accent2-warm-main));
+
+  /* Social Platform Colors */
+  --color-platform-instagram: rgb(var(--platform-instagram));
+  --color-platform-facebook: rgb(var(--platform-facebook));
+  --color-platform-twitter: rgb(var(--platform-twitter));
+  --color-platform-youtube: rgb(var(--platform-youtube));
+  --color-platform-linkedin: rgb(var(--platform-linkedin));
+  --color-platform-tiktok: rgb(var(--platform-tiktok));
+  --color-platform-pinterest: rgb(var(--platform-pinterest));
 }
 
 /* ========== LIGHT THEME (default) ========== */
@@ -115,6 +124,15 @@
 
   /* Gradient */
   --border-gradient: linear-gradient(135deg, #5D48BF 0%, #0055D4 100%);
+
+  /* Social Platform Colors */
+  --platform-instagram: 228 64 95;
+  --platform-facebook: 24 119 242;
+  --platform-twitter: 29 161 242;
+  --platform-youtube: 255 0 0;
+  --platform-linkedin: 0 119 181;
+  --platform-tiktok: 0 0 0;
+  --platform-pinterest: 230 0 35;
 
   /* Star colors for light theme (darker/muted shades) */
   --star-1: 93 72 191;
@@ -186,6 +204,15 @@
 
   /* Gradient */
   --border-gradient: linear-gradient(135deg, #8B86FF 0%, #60A5FA 100%);
+
+  /* Social Platform Colors (same in dark mode) */
+  --platform-instagram: 228 64 95;
+  --platform-facebook: 24 119 242;
+  --platform-twitter: 29 161 242;
+  --platform-youtube: 255 0 0;
+  --platform-linkedin: 0 119 181;
+  --platform-tiktok: 238 29 82;
+  --platform-pinterest: 230 0 35;
 
   /* Star colors for dark theme (vibrant shades) */
   --star-1: 139 134 255;

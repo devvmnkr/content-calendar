@@ -10,8 +10,9 @@
 | Styling       | Tailwind CSS 4               |
 | State         | Zustand                      |
 | HTTP          | Axios                        |
-| Icons         | Lucide React                 |
+| Icons         | Lucide React, Simple Icons   |
 | UI Components | Shadcn UI (Radix primitives) |
+| Date Utils    | date-fns                     |
 
 ---
 
@@ -20,13 +21,17 @@
 ```
 src/
 ├── components/
+│   ├── auth/            # Auth-related components (ProtectedRoute)
+│   ├── calendar/        # Calendar feature components
 │   ├── layout/          # App shell (Layout, Sidebar, Navbar)
 │   ├── theme/           # Theme-related components
 │   └── ui/              # Shadcn/reusable UI primitives
+├── data/                # Mock data (replaced by API calls later)
 ├── pages/               # Route-level components
 ├── stores/              # Zustand state stores
 ├── constants/           # Strings, navigation config
 ├── lib/                 # Utilities (cn, axios instance)
+├── types/               # TypeScript type definitions
 └── styles/              # Global CSS, theme variables
 ```
 
@@ -47,6 +52,7 @@ All colors are defined as CSS variables in `src/styles/globals.css`. **Never har
 | Secondary        | `--secondary-main`, `--secondary-hover`, `--secondary-pressed`, `--secondary-subtle` |
 | Accent 1 (Pink)  | `--accent1-main`, `--accent1-hover`, `--accent1-pressed`, `--accent1-subtle`         |
 | Accent 2 (Amber) | `--accent2-main`, `--accent2-hover`, `--accent2-pressed`, `--accent2-subtle`         |
+| Social Platforms | `--platform-instagram`, `--platform-facebook`, `--platform-twitter`, etc.            |
 
 ### Using Colors in Tailwind
 
@@ -173,6 +179,68 @@ For navigation links with active state:
 >
 ```
 
+### 7. Feature Components
+
+Group related components in feature folders with local constants:
+
+```
+src/components/calendar/
+├── CalendarToolbar.tsx      # Filter controls
+├── CalendarHeader.tsx       # Navigation + actions
+├── CalendarGrid.tsx         # Main grid layout
+├── CalendarDay.tsx          # Day cell component
+├── PostCard.tsx             # Post item display
+├── PostDetailSheet.tsx      # Detail sidebar
+├── DateRangePicker.tsx      # Date range selector
+├── SocialIcon.tsx           # Platform icons
+├── constants.ts             # Feature-specific strings
+└── index.ts                 # Public exports
+```
+
+Each feature folder should:
+
+- Have its own `constants.ts` for feature-specific strings
+- Export only public components via `index.ts`
+- Keep internal components private (not exported)
+
+### 8. Date Handling
+
+Use `date-fns` for all date operations:
+
+```tsx
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  isSameDay,
+} from "date-fns";
+
+// Formatting dates
+const formatted = format(date, "MMM d, yyyy"); // "Jan 10, 2026"
+
+// Date ranges
+const days = eachDayOfInterval({ start, end });
+
+// Comparisons
+const isToday = isSameDay(date, new Date());
+```
+
+### 9. Social Platform Icons
+
+Use `simple-icons` for brand icons with consistent styling:
+
+```tsx
+import { siInstagram, siFacebook } from "simple-icons";
+
+// Render with brand color
+<svg viewBox="0 0 24 24" style={{ fill: `#${siInstagram.hex}` }}>
+  <path d={siInstagram.path} />
+</svg>;
+```
+
+Available platforms: Instagram, Facebook, Twitter (X), YouTube, LinkedIn, TikTok, Pinterest.
+
 ---
 
 ## Adding New Features
@@ -197,6 +265,62 @@ For navigation links with active state:
 2. Use `persist` middleware if state needs localStorage
 3. Export typed hook: `useNewStore`
 
+### New Feature Module
+
+1. Create folder in `src/components/featureName/`
+2. Add `constants.ts` for feature-specific strings
+3. Add `index.ts` exporting public components
+4. Create types in `src/types/featureName.ts`
+5. Create store in `src/stores/featureNameStore.ts` if needed
+6. Add mock data in `src/data/` (temporary until API integration)
+
+---
+
+## Calendar Module
+
+### Types (`src/types/calendar.ts`)
+
+```tsx
+type Platform =
+  | "instagram"
+  | "facebook"
+  | "twitter"
+  | "youtube"
+  | "linkedin"
+  | "tiktok"
+  | "pinterest";
+type MediaType = "image" | "video" | "carousel" | "story" | "reel";
+type PostStatus = "draft" | "scheduled" | "published" | "failed";
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  platform: Platform;
+  mediaType: MediaType;
+  scheduledAt: Date;
+  status: PostStatus;
+}
+```
+
+### Store (`src/stores/calendarStore.ts`)
+
+Manages calendar state including:
+
+- `currentDate` - Currently displayed date
+- `viewMode` - "week" or "month"
+- `dateRange` - Selected date range for filtering
+- `selectedChannelId` - Platform filter
+- `selectedMediaType` - Media type filter
+- `selectedPost` - Post selected for detail view
+
+Key methods:
+
+- `goToPrevious()` / `goToNext()` - Navigate by week or month
+- `setViewMode(mode)` - Switch between week/month view
+- `setDateRange(start, end)` - Set custom date range
+- `getCalendarDays()` - Returns days with posts for current view
+
 ---
 
 ## File Naming
@@ -208,6 +332,8 @@ For navigation links with active state:
 | Constants     | camelCase         | `navigation.ts`, `strings.ts`    |
 | UI primitives | lowercase         | `button.tsx`, `avatar.tsx`       |
 | Pages         | PascalCase        | `Home.tsx`, `Schedule.tsx`       |
+| Types         | camelCase         | `calendar.ts`, `user.ts`         |
+| Mock data     | camelCase         | `mockPosts.ts`                   |
 
 ---
 
@@ -238,3 +364,25 @@ import { cn } from "@/lib/utils";
 ```
 
 Configured in `tsconfig.json` and `vite.config.ts`.
+
+---
+
+## UI Components
+
+Available Shadcn/Radix components in `src/components/ui/`:
+
+| Component | File          | Description                        |
+| --------- | ------------- | ---------------------------------- |
+| Avatar    | `avatar.tsx`  | User profile images with fallback  |
+| Button    | `button.tsx`  | Primary action buttons (CVA-based) |
+| Input     | `input.tsx`   | Text input fields                  |
+| Select    | `select.tsx`  | Dropdown selection (Radix)         |
+| Sheet     | `sheet.tsx`   | Slide-in sidebar/drawer (Radix)    |
+| Tooltip   | `tooltip.tsx` | Hover tooltips (Radix)             |
+
+All components follow Shadcn patterns:
+
+- Use `cn()` for class merging
+- Forward refs properly
+- Support Tailwind theming
+- Use CVA for variants when applicable
