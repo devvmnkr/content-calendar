@@ -153,11 +153,11 @@ export function PostDetailSheet() {
             </h3>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-text-primary">
-                <Calendar className="h-4 w-4 text-text-tertiary" />
+                <Calendar className="h-4 w-4 text-text-secondary" />
                 <span className="text-sm">{scheduledDate}</span>
               </div>
               <div className="flex items-center gap-2 text-text-primary">
-                <Clock className="h-4 w-4 text-text-tertiary" />
+                <Clock className="h-4 w-4 text-text-secondary" />
                 <span className="text-sm">{scheduledTime}</span>
               </div>
             </div>

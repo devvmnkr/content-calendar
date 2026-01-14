@@ -27,38 +27,38 @@ export function CalendarHeader() {
       : `${monthName} ${year}`;
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 lg:px-6">
+    <div className="flex items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-3 lg:px-6">
       {/* Navigation */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         <button
           onClick={goToPrevious}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-1 hover:text-text-primary"
+          className="flex h-7 w-7 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-1 hover:text-text-primary sm:h-8 sm:w-8"
           aria-label={CALENDAR_STRINGS.PREVIOUS_MONTH}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
 
         <button
-          className="flex items-center gap-1 rounded-lg px-2 py-1 text-xl font-semibold text-text-primary transition-colors hover:bg-surface-1"
+          className="flex items-center gap-0.5 rounded-lg px-1.5 py-1 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-1 sm:gap-1 sm:px-2 sm:text-base lg:text-xl"
           aria-label={CALENDAR_STRINGS.MONTH_DROPDOWN_LABEL}
         >
           {headerText}
-          <ChevronDown className="h-5 w-5 text-text-tertiary" />
+          <ChevronDown className="h-4 w-4 text-text-tertiary sm:h-5 sm:w-5" />
         </button>
 
         <button
           onClick={goToNext}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-1 hover:text-text-primary"
+          className="flex h-7 w-7 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-1 hover:text-text-primary sm:h-8 sm:w-8"
           aria-label={CALENDAR_STRINGS.NEXT_MONTH}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
       </div>
 
       {/* Add New button */}
       <Button size="sm" onClick={() => openNewPostDrawer()}>
         <Plus className="h-4 w-4" />
-        {CALENDAR_STRINGS.ADD_NEW}
+        <span className="hidden sm:inline">{CALENDAR_STRINGS.ADD_NEW}</span>
       </Button>
     </div>
   );

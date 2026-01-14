@@ -49,19 +49,23 @@ export function CalendarGrid() {
   // Show error state
   if (error) {
     return (
-      <div className="flex-1 overflow-auto">
-        {/* Days of week header */}
-        <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-border-default bg-bg">
-          {CALENDAR_STRINGS.DAYS_SHORT.map((day) => (
-            <div
-              key={day}
-              className="border-r border-border-default px-3 py-3 text-sm font-medium text-text-secondary last:border-r-0"
-            >
-              {day}
-            </div>
-          ))}
+      <div className="flex-1 overflow-x-auto overflow-y-auto">
+        {/* Scrollable container for mobile */}
+        <div className="min-w-[700px] lg:min-w-0">
+          {/* Days of week header */}
+          <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-border-default bg-bg">
+            {CALENDAR_STRINGS.DAYS_SHORT.map((day) => (
+              <div
+                key={day}
+                className="min-w-[100px] border-r border-border-default px-2 py-2 text-center text-xs font-medium text-text-secondary last:border-r-0 sm:px-3 sm:py-3 sm:text-sm lg:min-w-0"
+              >
+                <span className="hidden sm:inline">{day}</span>
+                <span className="sm:hidden">{day.charAt(0)}</span>
+              </div>
+            ))}
+          </div>
+          <ErrorState error={error} onRetry={fetchPosts} />
         </div>
-        <ErrorState error={error} onRetry={fetchPosts} />
       </div>
     );
   }
@@ -71,53 +75,57 @@ export function CalendarGrid() {
   const hasExistingData = days.some((day) => day.posts.length > 0);
 
   return (
-    <div className="flex-1 overflow-auto">
-      {/* Days of week header */}
-      <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-border-default bg-bg">
-        {CALENDAR_STRINGS.DAYS_SHORT.map((day) => (
-          <div
-            key={day}
-            className="border-r border-border-default px-3 py-3 text-sm font-medium text-text-secondary last:border-r-0"
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-
-      {/* Show loading indicator while fetching */}
-      {isLoading && !hasExistingData ? (
-        <LoadingState />
-      ) : (
-        <div className="relative">
-          {/* Loading overlay when refreshing with existing data */}
-          {isLoading && hasExistingData && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-bg/50">
-              <div className="flex items-center gap-2 rounded-lg bg-surface-1 px-4 py-2 shadow-md">
-                <Loader2 className="h-4 w-4 animate-spin text-primary-main" />
-                <span className="text-sm text-text-secondary">
-                  {CALENDAR_STRINGS.LOADING_POSTS}
-                </span>
-              </div>
+    <div className="flex-1 overflow-x-auto overflow-y-auto">
+      {/* Scrollable container for mobile */}
+      <div className="min-w-[700px] lg:min-w-0">
+        {/* Days of week header */}
+        <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-border-default bg-bg">
+          {CALENDAR_STRINGS.DAYS_SHORT.map((day) => (
+            <div
+              key={day}
+              className="min-w-[100px] border-r border-border-default px-2 py-2 text-center text-xs font-medium text-text-secondary last:border-r-0 sm:px-3 sm:py-3 sm:text-sm lg:min-w-0"
+            >
+              <span className="hidden sm:inline">{day}</span>
+              <span className="sm:hidden">{day.charAt(0)}</span>
             </div>
-          )}
-
-          {/* Calendar grid */}
-          <div
-            className={cn(
-              "grid grid-cols-7",
-              viewMode === "week" && "min-h-[calc(100vh-280px)]"
-            )}
-          >
-            {days.map((day, index) => (
-              <CalendarDay
-                key={index}
-                day={day}
-                isWeekView={viewMode === "week"}
-              />
-            ))}
-          </div>
+          ))}
         </div>
-      )}
+
+        {/* Show loading indicator while fetching */}
+        {isLoading && !hasExistingData ? (
+          <LoadingState />
+        ) : (
+          <div className="relative">
+            {/* Loading overlay when refreshing with existing data */}
+            {isLoading && hasExistingData && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-bg/50">
+                <div className="flex items-center gap-2 rounded-lg bg-surface-1 px-4 py-2 shadow-md">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary-main" />
+                  <span className="text-sm text-text-secondary">
+                    {CALENDAR_STRINGS.LOADING_POSTS}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Calendar grid */}
+            <div
+              className={cn(
+                "grid grid-cols-7",
+                viewMode === "week" && "min-h-[calc(100vh-280px)]"
+              )}
+            >
+              {days.map((day, index) => (
+                <CalendarDay
+                  key={index}
+                  day={day}
+                  isWeekView={viewMode === "week"}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

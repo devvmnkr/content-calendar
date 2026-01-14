@@ -10,7 +10,7 @@ interface CalendarDayProps {
 }
 
 export function CalendarDay({ day, isWeekView = false }: CalendarDayProps) {
-  const { setSelectedPost } = useCalendarStore();
+  const { setSelectedPost, openDayPostsDrawer } = useCalendarStore();
   const dayNumber = day.date.getDate();
   const postCount = day.posts.length;
 
@@ -21,20 +21,45 @@ export function CalendarDay({ day, isWeekView = false }: CalendarDayProps) {
 
   // In week view, show all posts without limit
   const maxPosts = isWeekView ? day.posts.length : 4;
+  const hasMorePosts = !isWeekView && day.posts.length > 4;
+
+  const handleCellClick = () => {
+    // Only open the drawer if there are posts to show
+    if (day.posts.length > 0) {
+      openDayPostsDrawer(day);
+    }
+  };
+
+  const handlePostClick = (
+    e: React.MouseEvent,
+    post: CalendarDayType["posts"][0]
+  ) => {
+    // Stop propagation so it doesn't trigger the cell click
+    e.stopPropagation();
+    setSelectedPost(post);
+  };
+
+  const handleMoreClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    openDayPostsDrawer(day);
+  };
 
   return (
     <div
+      onClick={handleCellClick}
       className={cn(
-        "flex flex-col border-r border-b border-border-default p-2",
-        isWeekView ? "min-h-64" : "min-h-32 lg:min-h-36",
-        !day.isCurrentMonth && !isWeekView && "bg-surface-1"
+        "flex flex-col border-r border-b border-border-default p-1.5 sm:p-2",
+        "min-w-[100px] lg:min-w-0",
+        isWeekView ? "min-h-64" : "min-h-28 sm:min-h-32 lg:min-h-36",
+        !day.isCurrentMonth && !isWeekView && "bg-surface-1",
+        day.posts.length > 0 && "cursor-pointer hover:bg-surface-1/50"
       )}
     >
       {/* Day number */}
-      <div className="mb-2 flex items-start justify-between">
+      <div className="mb-1 flex items-start justify-between sm:mb-2">
         <span
           className={cn(
-            "flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium",
+            "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium sm:h-7 sm:w-7 sm:text-sm",
             day.isToday
               ? "bg-primary-main text-text-inverse"
               : day.isCurrentMonth || isWeekView
@@ -52,13 +77,16 @@ export function CalendarDay({ day, isWeekView = false }: CalendarDayProps) {
           <PostCard
             key={post.id}
             post={post}
-            onClick={() => setSelectedPost(post)}
+            onClick={(e) => handlePostClick(e, post)}
           />
         ))}
-        {!isWeekView && day.posts.length > 4 && (
-          <span className="text-xs text-text-tertiary">
+        {hasMorePosts && (
+          <button
+            onClick={handleMoreClick}
+            className="text-xs text-text-tertiary hover:text-primary-main hover:underline text-left transition-colors"
+          >
             +{day.posts.length - 4} more
-          </span>
+          </button>
         )}
       </div>
 

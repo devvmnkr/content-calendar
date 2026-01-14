@@ -4,6 +4,7 @@ import {
   CalendarHeader,
   CalendarGrid,
   PostDetailSheet,
+  DayPostsDrawer,
   NewPostSheet,
 } from "@/components/calendar";
 import { useCalendarStore } from "@/stores/calendarStore";
@@ -29,6 +30,9 @@ export function Schedule() {
 
       {/* Post detail sidebar */}
       <PostDetailSheet />
+
+      {/* Day posts drawer (shows all posts for a day) */}
+      <DayPostsDrawer />
 
       {/* New/Edit post drawer */}
       <NewPostSheet />

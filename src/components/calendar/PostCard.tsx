@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface PostCardProps {
   post: Post;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 const MAX_VISIBLE_CHANNELS = 3;

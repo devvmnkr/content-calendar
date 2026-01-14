@@ -7,6 +7,7 @@ import {
   eachDayOfInterval,
   isSameMonth,
   isSameDay,
+  isWithinInterval,
   addWeeks,
   subWeeks,
   format,
@@ -43,6 +44,10 @@ interface CalendarState {
   selectedPost: Post | null;
   isDetailOpen: boolean;
 
+  // Day posts drawer (for viewing all posts in a day)
+  selectedDay: CalendarDayType | null;
+  isDayPostsOpen: boolean;
+
   // New post drawer
   isNewPostOpen: boolean;
   editingPost: Post | null;
@@ -77,6 +82,8 @@ interface CalendarState {
   // Actions - UI
   setSelectedPost: (post: Post | null) => void;
   setIsDetailOpen: (open: boolean) => void;
+  openDayPostsDrawer: (day: CalendarDayType) => void;
+  closeDayPostsDrawer: () => void;
   openNewPostDrawer: (post?: Post) => void;
   closeNewPostDrawer: () => void;
   clearSubmitError: () => void;
@@ -102,6 +109,10 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
   },
   selectedPost: null,
   isDetailOpen: false,
+
+  // Initial state - Day posts drawer
+  selectedDay: null,
+  isDayPostsOpen: false,
 
   // Initial state - New post drawer
   isNewPostOpen: false,
@@ -327,6 +338,18 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
   setIsDetailOpen: (open) =>
     set({ isDetailOpen: open, selectedPost: open ? get().selectedPost : null }),
 
+  openDayPostsDrawer: (day) =>
+    set({
+      selectedDay: day,
+      isDayPostsOpen: true,
+    }),
+
+  closeDayPostsDrawer: () =>
+    set({
+      selectedDay: null,
+      isDayPostsOpen: false,
+    }),
+
   openNewPostDrawer: (post) =>
     set({
       isNewPostOpen: true,
@@ -364,10 +387,17 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
 
     const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
 
+    // Filter posts by date range and media type
+    let filteredPosts = posts.filter((post) =>
+      isWithinInterval(post.scheduledAt, {
+        start: dateRange.start,
+        end: dateRange.end,
+      })
+    );
+
     // Filter by media type locally (since API doesn't support it)
-    let filteredPosts = posts;
     if (selectedMediaType) {
-      filteredPosts = posts.filter(
+      filteredPosts = filteredPosts.filter(
         (post) => post.mediaType === selectedMediaType
       );
     }
